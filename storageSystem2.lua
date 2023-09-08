@@ -1,7 +1,7 @@
 -- Startup function
 
 function initBarrel()
-    j = 0
+    j = 1
     barrels = {}
     local periList = peripheral.getNames()
     for i = 1, #periList do
