@@ -1,14 +1,18 @@
 -- Startup function
 
 function initBarrel()
+    j = 0
     max = 0
     barrels = {}
     local periList = peripheral.getNames()
     for i = 1, #periList do
         print("I have a "..peripheral.getType(periList[i]).." attached as \""..periList[i].."\".")
         name = periList[i]
-        barrels[i] = peripheral.wrap(name)
-        barrels[i].name = name
+        if peripheral.getType(name) then
+            barrels[j] = peripheral.wrap(name)
+            barrels[j].name = name
+            j = j + 1
+        end
     end
     print("There are " .. #barrels .. " barrels")
 end
