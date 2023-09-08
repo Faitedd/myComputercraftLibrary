@@ -5,6 +5,7 @@ function initBarrel()
     barrels = {}
     local periList = peripheral.getNames()
     for i = 1, #periList do
+        print("I have a "..peripheral.getType(periList[i]).." attached as \""..periList[i].."\".")
         name = periList[i]
         barrels[i] = peripheral.wrap(name)
         barrels[i].name = name
