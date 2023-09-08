@@ -3,11 +3,11 @@
 function initBarrel()
     max = 0
     barrels = {}
-    while peripheral.isPresent("minecraft:barrel_" .. max) == true do
-        name = "minecraft:barrel_" .. max
-        barrels[max+1] = peripheral.wrap(name)
-        barrels[max+1].name = name
-        max = max + 1
+    local periList = peripheral.getNames()
+    for i = 1, #periList do
+        name = periList[i]
+        barrels[i] = peripheral.wrap(name)
+        barrels[i].name = name
     end
     print("There are " .. max .. " barrels")
 end
