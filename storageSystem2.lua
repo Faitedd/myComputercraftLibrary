@@ -2,7 +2,6 @@
 
 function initBarrel()
     j = 0
-    max = 0
     barrels = {}
     local periList = peripheral.getNames()
     for i = 1, #periList do
@@ -109,7 +108,7 @@ function pump(Sbarrel, Tbarrel)
 end
 
 function wavepump()
-    for i = max - 1, 1, -1 do
+    for i = #barrels - 1, 1, -1 do
         pump(barrels[i],barrels[i+1])
     end
 end
@@ -117,7 +116,7 @@ end
 -- Find Item Functions
 
 function findThing(string)
-    for i = 1, max do
+    for i = 1, #barrels do
         for slot, item in pairs(barrels[i].list()) do
             if item.name == string then
                 return barrels[i], slot
@@ -128,7 +127,7 @@ function findThing(string)
 end
 
 function findFuzzyThing(str)
-    for i = 1, max do
+    for i = 1, #barrels do
         for slot, item in pairs(barrels[i].list()) do
             if compareString(item.name, str) == true then
                 return barrels[i], slot
@@ -140,7 +139,7 @@ end
 
 function findFuzzyList(str)
     local myList = {}
-    for i = 1, max do
+    for i = 1, #barrels do
         for slot, item in pairs(barrels[i].list()) do
             if compareString(item.name, str) == true then
                 table.insert(myList,{item.name,barrels[i].name,slot,item.count})
