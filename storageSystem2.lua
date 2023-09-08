@@ -10,7 +10,7 @@ function initBarrel()
         barrels[i] = peripheral.wrap(name)
         barrels[i].name = name
     end
-    print("There are " .. max .. " barrels")
+    print("There are " .. #barrels .. " barrels")
 end
 
 -- String Utilities
