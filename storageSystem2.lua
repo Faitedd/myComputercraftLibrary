@@ -7,7 +7,7 @@ function initBarrel()
     for i = 1, #periList do
         print("I have a "..peripheral.getType(periList[i]).." attached as \""..periList[i].."\".")
         name = periList[i]
-        if peripheral.getType(name) == "minecraft:barrel" then
+        if peripheral.getType(name) == "minecraft:barrel" or peripheral.getType(name) == "ironchests:iron_chest" or peripheral.getType(name) == "ironchests:gold_chest" or peripheral.getType(name) == "ironchests:diamond_chest" then
             barrels[j] = peripheral.wrap(name)
             barrels[j].name = name
             j = j + 1
