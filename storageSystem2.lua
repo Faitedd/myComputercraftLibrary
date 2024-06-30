@@ -1,15 +1,23 @@
 -- Startup function
 
 function initBarrel()
-    max = 0
+    j = 1
     barrels = {}
-    while peripheral.isPresent("minecraft:barrel_" .. max) == true do
-        name = "minecraft:barrel_" .. max
-        barrels[max+1] = peripheral.wrap(name)
-        barrels[max+1].name = name
-        max = max + 1
+    local periList = peripheral.getNames()
+    for i = 1, #periList do
+        print("I have a "..peripheral.getType(periList[i]).." attached as \""..periList[i].."\".")
+        name = periList[i]
+        if peripheral.getType(name) == "minecraft:barrel" or peripheral.getType(name) == "ironchests:iron_chest" or peripheral.getType(name) == "ironchests:gold_chest" or peripheral.getType(name) == "ironchests:diamond_chest" or peripheral.getType(name) == "ironchests:netherite_chest" then
+            barrels[j] = peripheral.wrap(name)
+            barrels[j].name = name
+            j = j + 1
+        end
+        if peripheral.getType(name) == "minecraft:chest" then
+            Chest = peripheral.wrap(name)
+            Chest.name = getmetatable(Chest).name
+        end
     end
-    print("There are " .. max .. " barrels")
+    print("There are " .. #barrels .. " barrels")
 end
 
 -- String Utilities
@@ -104,7 +112,7 @@ function pump(Sbarrel, Tbarrel)
 end
 
 function wavepump()
-    for i = max - 1, 1, -1 do
+    for i = #barrels - 1, 1, -1 do
         pump(barrels[i],barrels[i+1])
     end
 end
@@ -112,7 +120,7 @@ end
 -- Find Item Functions
 
 function findThing(string)
-    for i = 1, max do
+    for i = 1, #barrels do
         for slot, item in pairs(barrels[i].list()) do
             if item.name == string then
                 return barrels[i], slot
@@ -123,7 +131,7 @@ function findThing(string)
 end
 
 function findFuzzyThing(str)
-    for i = 1, max do
+    for i = 1, #barrels do
         for slot, item in pairs(barrels[i].list()) do
             if compareString(item.name, str) == true then
                 return barrels[i], slot
@@ -135,7 +143,7 @@ end
 
 function findFuzzyList(str)
     local myList = {}
-    for i = 1, max do
+    for i = 1, #barrels do
         for slot, item in pairs(barrels[i].list()) do
             if compareString(item.name, str) == true then
                 table.insert(myList,{item.name,barrels[i].name,slot,item.count})
@@ -148,7 +156,7 @@ end
 --- Give To Player functions
 
 function giveMeThing(barrel,slot)
-    barrel.pushItems("minecraft:chest_0",slot)
+    barrel.pushItems(Chest.name,slot)
 end
 
 function giveMeThisThing(string)
