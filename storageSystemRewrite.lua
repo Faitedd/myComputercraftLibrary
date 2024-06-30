@@ -1,19 +1,19 @@
 function initBarrel()
-    max = 0
-    barrels = {}
-    while peripheral.isPresent("minecraft:barrel_" .. max) == true do
-        name = "minecraft:barrel_" .. max
-        barrels[max+1] = peripheral.wrap(name)
-        barrels[max+1].name = name
-        max = max + 1
-    end
-    print("There are " .. max .. " barrels")
+    Barrels = { peripheral.find('inventory') }
 end
 
-itemLog = {}
+ItemLog = {}
 
 function itemLogger()
-    for i = 1, max do
-        table.insert(barrels[i].list)
+    for i,v in pairs(Barrels) do
+        table.insert(ItemLog,v.list())
     end
+end
+
+initBarrel()
+itemLogger()
+
+for i,v in pairs(ItemLog) do
+    print(i, v)
+    thisThing = table.unpack(v)
 end
