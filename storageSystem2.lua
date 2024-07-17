@@ -302,8 +302,10 @@ function eventChecker()
                 pump(chest,barrels[1])
             end
             if message == "take it" then
-                manager.removeItemFromPlayer("north",{count=64,name=manager.getItemInHand().name})
-                pump(chest,barrels[1])
+                if (next(manager.getItemInHand()) == nil) == false then
+                    manager.removeItemFromPlayer("north",{count=manager.getItemInHand().count,name=manager.getItemInHand().name})
+                    pump(chest,barrels[1])
+                end
             end
             if message == "take it all" then
                 for i = 0,8 do
