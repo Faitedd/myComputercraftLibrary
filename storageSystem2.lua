@@ -7,7 +7,7 @@ function initBarrel()
     for i = 1, #periList do
         print("I have a "..peripheral.getType(periList[i]).." attached as \""..periList[i].."\".")
         name = periList[i]
-        if peripheral.getType(name) == "minecraft:barrel" or peripheral.getType(name) == "ironchests:iron_chest" or peripheral.getType(name) == "ironchests:gold_chest" or peripheral.getType(name) == "ironchests:diamond_chest" or peripheral.getType(name) == "ironchests:netherite_chest" then
+        if peripheral.getType(name) == "minecraft:barrel" or peripheral.getType(name) == "ironchests:iron_chest" or peripheral.getType(name) == "ironchests:gold_chest" or peripheral.getType(name) == "ironchests:diamond_chest" or peripheral.getType(name) == "ironchests:netherite_chest" or peripheral.getType(name) == "create:item_vault" then
             barrels[j] = peripheral.wrap(name)
             barrels[j].name = name
             j = j + 1
@@ -268,7 +268,7 @@ function eventChecker()
                 else 
                     print("You bungled hard")
                 end
-                manager.addItemToPlayer("left",64)
+                manager.addItemToPlayer("north",{count=64})
             end
             if cutask == "hand me " then
                 req = string.lower(string.sub(message,9))
@@ -281,7 +281,7 @@ function eventChecker()
                 else 
                     print("You bungled hard")
                 end
-                manager.addItemToPlayer("left",64)
+                manager.addItemToPlayer("north",{count=64})
             end
             if cutask == "toss me " then
                 req = string.lower(string.sub(message,9))
@@ -298,16 +298,16 @@ function eventChecker()
                 else 
                     print("You bungled hard")
                 end
-                manager.addItemToPlayer("left",count)
+                manager.addItemToPlayer("north",{count=count})
                 pump(chest,barrels[1])
             end
             if message == "take it" then
-                manager.removeItemFromPlayer("left",64,nil,manager.getItemInHand().name)
+                manager.removeItemFromPlayer("north",{count=64,name=manager.getItemInHand().name})
                 pump(chest,barrels[1])
             end
             if message == "take it all" then
-                for i = 1,9 do
-                manager.removeItemFromPlayer("left",64,i)
+                for i = 0,8 do
+                manager.removeItemFromPlayer("north",{count=64,fromSlot=i})
                 end
                 pump(chest,barrels[1])
             end
