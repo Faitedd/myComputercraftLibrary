@@ -33,7 +33,7 @@ end
 while true do
     local myData = Player.getPlayerPos(Me)
     -- local theirData = Player.getPlayerPos(Target)
-    local theirData = InitialPosition
+    local theirData = Player.getPlayerPos(Target)
 
     local diff = {theirData.x - myData.x, theirData.y - myData.y, theirData.z - myData.z}
     local veckie = {diff[1],diff[3]}
@@ -48,6 +48,5 @@ while true do
         anglediff = map(anglediff, -math.pi, math.pi)
     end
     Track(4, map(anglediff + math.pi/2, -math.pi, math.pi))
-    print(map(anglediff + math.pi/2, -math.pi, math.pi))
-    print("Position vector:" .. anglier .. "\n Local angle:".. myangle)
+    print(distance)
 end
