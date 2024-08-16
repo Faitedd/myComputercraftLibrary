@@ -24,41 +24,54 @@ end
 
 function elementIn2(list, listOfValues)
     for i,v in pairs(listOfValues) do
-        return elementIn()
-    end
-end
-
-function buildContainer(data)
-    local thisItem = {}
-    thisItem.data = data
-    thisItem.storage = {}
-    thisItem.label = peripheral.getName(data)
-    local type2 = "0"
-    if elementIn(peripheral.getType(data),"create:item_vault")
-    then
-        type2 = "LargeStorage"
-    else
-        error("Unknown Peripheral")
-    end
-    thisItem.type = type2
-end
-
-function itemLogger()
-    for i,v in pairs(Barrels) do
-        local roger = buildContainer()
-        table.insert(ContainerLog,roger)
-        for i2,v2 in pairs(v.list()) do
-            print(i2, v2)
-            table.insert(ItemLog,buildItem(v2,peripheral.getName(v)),i2)
+        if elementIn(list, v) then
+            return true
         end
     end
 end
 
+function buildContainer(data)
+    local thisContainer = {}
+    thisContainer.data = data
+    thisContainer.storage = {}
+    thisContainer.label = peripheral.getName(data)
+    local type2 = "0"
+    if elementIn({peripheral.getType(data)},"create:item_vault")
+    then
+        type2 = "LargeStorage"
+    elseif elementIn({peripheral.getType(data)},"minecraft:chest")
+    then
+        type2 = "InteractChest"
+    else
+        error("Unknown Peripheral: " .. print(unpack({peripheral.getType(data)})))
+    end
+    thisContainer.type = type2
+    return thisContainer
+end
+
+function itemLogger()
+    for i,v in pairs(Barrels) do
+        local container = buildContainer(v)
+        for i2,v2 in pairs(v.list()) do
+            print("This is:", i2, v2)
+            local item = buildItem(v2,container,i2)
+            table.insert(ItemLog, item)
+            table.insert(container.storage, item)
+        end
+        table.insert(ContainerLog,container)
+    end
+end
+
 function searchForItem(name)
-    for i,v in pairs(ContainerLog) do
-    
+    for i,container in pairs(ContainerLog) do
+        for i2, item in pairs(container.storage) do
+            if item.label == name then
+                print(item.data.count, item.source.label)
+            end
+        end
     end
 end
 
 initBarrel()
 itemLogger()
+searchForItem("minecraft:iron_ingot")

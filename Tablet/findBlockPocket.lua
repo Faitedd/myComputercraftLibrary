@@ -76,7 +76,6 @@ XSize, YSize = term.getSize()
 local lines = {}
 for line in io.lines("NetheriteHunt") do
     line = string.gsub(line, "\"", "")
-    local stringCheck = "minecraft:ancient_debris"
     table.insert(lines, line)
 end
 
@@ -118,20 +117,17 @@ while true do
         end
         local myData = Player.getPlayerPos(Me)
         CurrentPosition = {x = myData.x, y = myData.y, z = myData.z}
-        local minDistance = 100
         if next(TargetBlocks) ~= nil then
             for i,each in pairs(TargetBlocks) do
                 RelativePosition = {x = CurrentPosition.x - InitialPosition.x, y = CurrentPosition.y - InitialPosition.y, z = CurrentPosition.z - InitialPosition.z}
-                x,y,z = each.x - RelativePosition.x, each.y - RelativePosition.y, each.z - RelativePosition.z
+                local x,y,z = each.x - RelativePosition.x, each.y - RelativePosition.y, each.z - RelativePosition.z
                 local distance, angle = CompTrack(x , y, z)
                 each.angle = angle
                 each.distance = distance
-                if each.distance < minDistance then
-                    minDistance = each.distance
-                    CurrentRecord = i
-                end
+                each.height = y
             end
-            CompDraw(4, map(TargetBlocks[CurrentRecord].angle + math.pi/2, -math.pi, math.pi))  
+            CompDraw(4, map(TargetBlocks[1].angle + math.pi/2, -math.pi, math.pi))
+            print(TargetBlocks[1].height)
         end
     end
     sleep(0.05)

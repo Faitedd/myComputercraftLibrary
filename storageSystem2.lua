@@ -272,7 +272,7 @@ function eventChecker()
             end
             if cutask == "hand me " then
                 req = string.lower(string.sub(message,9))
-                print(req .. "has been requested")
+                print(req .. " has been requested")
                 x = handMeThisThing(req)
                 if x == false then
                     print("Unable to be sent")
