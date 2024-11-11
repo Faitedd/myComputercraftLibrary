@@ -63,10 +63,11 @@ function itemLogger()
 end
 
 function searchForItem(name)
+    local searchList = {}
     for i,container in pairs(ContainerLog) do
         for i2, item in pairs(container.storage) do
             if item.label == name then
-                print(item.data.count, item.source.label)
+                table.append(searchList, item)
             end
         end
     end
