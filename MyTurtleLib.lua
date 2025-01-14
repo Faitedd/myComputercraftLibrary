@@ -185,7 +185,32 @@ function Search(blockInfo,tag)
     end
 end
 
+function HuntId(name)
+    local a, blockInfo = turtle.inspect()
+    if a == true then
+        return(SearchId(blockInfo, name))
+    end
+end
 
+function HuntUpId(name)
+    local a, blockInfo = turtle.inspectUp()
+    if a == true then
+        return(SearchId(blockInfo, name))
+    end
+end
+
+function HuntDownId(name)
+    local a, blockInfo = turtle.inspectDown()
+    if a == true then
+        return(SearchId(blockInfo, name)) 
+    end
+end
+
+function SearchId(blockInfo,name)
+    if blockInfo.name == name then
+        return(true)
+    end
+end
 
 function Hunt(tag)
     local a, blockInfo = turtle.inspect()
@@ -201,12 +226,13 @@ function HuntUp(tag)
     end
 end
 
-function huntDown(tag)
+function HuntDown(tag)
     local a, blockInfo = turtle.inspectDown()
     if a == true then
         return(Search(blockInfo, tag)) 
     end
 end
+
 
 function WasteDisposal(tag)
 	for i = 1,16 do
@@ -219,6 +245,41 @@ function WasteDisposal(tag)
             end
         end
 	end
+end
+
+function GatherOreId(name)
+    for i = 1,6 do
+        if i < 5 then
+            local x = HuntId(name)
+            if x == true then
+                TurtleMove.forward()
+                print(TurtleMovement[#TurtleMovement])
+                GatherOreId(name)
+            end
+            TurtleMove.turnRight()
+            if i == 4 then
+                for i = 1,4 do
+                    table.remove(TurtleMovement,#TurtleMovement)
+                end
+            end
+        elseif i == 5 then
+            local x = HuntUpId(name)
+            if x == true then
+                TurtleMove.up()
+                print(TurtleMovement[#TurtleMovement])
+                GatherOreId(name)
+            end
+        elseif i == 6 then
+            local x = HuntDownId(name)
+            if x == true then
+                TurtleMove.down()
+                print(TurtleMovement[#TurtleMovement])
+                GatherOreId(name)
+            end
+        end
+    end
+    print("I am trying to reverse")
+    TurtleMove.reverse()
 end
 
 function GatherOre(tag)
@@ -244,7 +305,7 @@ function GatherOre(tag)
                 GatherOre(tag)
             end
         elseif i == 6 then
-            local x = huntDown(tag)
+            local x = HuntDown(tag)
             if x == true then
                 TurtleMove.down()
                 print(TurtleMovement[#TurtleMovement])
@@ -255,6 +316,7 @@ function GatherOre(tag)
     print("I am trying to reverse")
     TurtleMove.reverse()
 end
+
 
 function GatherLiquid(tag)
     for i = 1,6 do
@@ -283,7 +345,7 @@ function GatherLiquid(tag)
                 GatherOre(tag)
             end
         elseif i == 6 then
-            local x = huntDown(tag)
+            local x = HuntDown(tag)
             if x == true then
                 turtle.placeDown()
                 turtle.refuel(1)
